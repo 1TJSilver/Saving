@@ -38,20 +38,22 @@ public class Main {
         return true;
     }
     public static void zipFiles(String zipPath, ArrayList<String> listSave){
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath))) {
-                for (String pathSave : listSave) {
-                    FileInputStream fis = new FileInputStream(pathSave);
-                    ZipEntry zipEntry = new ZipEntry(pathSave + "_packed");
-                    zos.putNextEntry(zipEntry);
-                    byte[] buffer = new byte[fis.available()];
-                    fis.read(buffer);
-                    zos.write(buffer);
-                    zos.closeEntry();
-                }
-            } catch(Exception ex){
-                    System.out.println(ex.getMessage());
-            }
+        for (String pathSave : listSave) {
+            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath));
+                 FileInputStream fis = new FileInputStream(pathSave)) {
 
+
+                ZipEntry zipEntry = new ZipEntry(pathSave + "_packed");
+                zos.putNextEntry(zipEntry);
+                byte[] buffer = new byte[fis.available()];
+                fis.read(buffer);
+                zos.write(buffer);
+                zos.closeEntry();
+
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
     public static void deleteSave (String saveName) {
         File file = new File("Games\\savegames\\" + saveName);
