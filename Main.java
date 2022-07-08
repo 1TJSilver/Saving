@@ -22,9 +22,9 @@ public class Main {
         arrayList.add("Games//savegames//Game2");
         arrayList.add("Games//savegames//Game3");
         zipFiles("Games//savegames//zip.zip", arrayList);
-        /*deleteSave("Game1");
+        deleteSave("Game1");
         deleteSave("Game2");
-        deleteSave("Game3");*/
+        deleteSave("Game3");
     }
     public static boolean saveGame (String name, GameProgress gameProgress){
         File file = new File("Games//savegames//" + name);
