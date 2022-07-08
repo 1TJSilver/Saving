@@ -22,9 +22,9 @@ public class Main {
         arrayList.add("Games//savegames//Game2");
         arrayList.add("Games//savegames//Game3");
         zipFiles("Games//savegames//zip.zip", arrayList);
-        deleteSave("Game1");
+        /*deleteSave("Game1");
         deleteSave("Game2");
-        deleteSave("Game3");
+        deleteSave("Game3");*/
     }
     public static boolean saveGame (String name, GameProgress gameProgress){
         File file = new File("Games//savegames//" + name);
@@ -38,23 +38,22 @@ public class Main {
         return true;
     }
     public static void zipFiles(String zipPath, ArrayList<String> listSave){
-        for (String pathSave : listSave) {
-            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath));
-                 FileInputStream fis = new FileInputStream(pathSave)) {
-
-
-                ZipEntry zipEntry = new ZipEntry(pathSave + "_packed");
-                zos.putNextEntry(zipEntry);
-                byte[] buffer = new byte[fis.available()];
-                fis.read(buffer);
-                zos.write(buffer);
-                zos.closeEntry();
-
+            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath))) {
+                for (String pathSave : listSave) {
+                    FileInputStream fis = new FileInputStream(pathSave);
+                    ZipEntry zipEntry = new ZipEntry(pathSave);
+                    zos.putNextEntry(zipEntry);
+                    byte[] buffer = new byte[fis.available()];
+                    fis.read(buffer);
+                    zos.write(buffer);
+                    zos.closeEntry();
+                    fis.close();
+                }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
-    }
+
     public static void deleteSave (String saveName) {
         File file = new File("Games\\savegames\\" + saveName);
         if (file.delete()){
